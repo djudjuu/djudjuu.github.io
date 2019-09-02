@@ -1,38 +1,26 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Remix Simple Plugin</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="index.css"/>
+	<title>Flattener</title>
 </head>
+
 <body>
-    <style>
-        html, body {
-            height: 100%;
-            margin: 0;
-        }
-    </style>
+	<article>
+		<div>
+			<button onclick="flatten()" class="btn btn-sm btn-primary">Flatten</button>
+		</div>
+
+		<textarea id="code" readonly></textarea>
+	</article>
+
+	<script src="https://unpkg.com/remix-plugin"></script>
+	<script src="tsort.js"></script>
+	<script src="path.js"></script>
+	<script src="index.js"></script>
 </body>
-<script>
-    const trustedOrigins = [
-        "http://remix-alpha.ethereum.org",
-        "http://remix.ethereum.org",
-        "https://remix-alpha.ethereum.org",
-        "https://remix.ethereum.org"
-    ];
-    // Listen on messages from Remix
-    window.addEventListener('message', event => {
-        // Only accept trusted origins
-        if (trustedOrigins.indexOf(event.origin) === -1) {
-            return;
-        }
-        const { action, key, type, value } = JSON.parse(event.data);
-        // Listen on new compilation
-        if (action === 'notification' && key === 'compiler' && type === 'compilationFinished') {
-            const success = value[0];
-            document.body.style.backgroundColor = success ? 'green' : 'red'; 
-        }
-    }, false);
-</script>
+
 </html>
