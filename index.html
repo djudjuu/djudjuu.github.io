@@ -13,10 +13,15 @@
   <div id="div1">
     <p> 1show me my contracts </p>
     <button onclick="showContracts()" >Gogo</button>
-    <div id='results'></div>
+    <div id='results'>
+      <ul id="cList"></ul>
+    </div>
+    <button onclick="printMyStuff()" >showGlobals</button>
+    <div id="scratch"></div>
   </div>
 </article>
   <script src="https://unpkg.com/remix-plugin"></script>
+  <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@1.0.0-beta.34/dist/web3.js"></script>
   <script src="index.js"></script>
 </body>
 </html>
