@@ -10,6 +10,8 @@ contracts = []
 let events = []
 counter = 0
 
+
+// get the compilation result, extract eventABIs and displays them in the DOM
 async function showContracts() {
   console.log("ahahaha i am a button and I am working")
   await client.onload()
@@ -19,10 +21,12 @@ async function showContracts() {
   // const el = document.querySelector('div#results')
   // let event = compilationResult
   let eventsByContract = getEvents(compilationResult.data)
+  console.log('eventsByContract ', eventsByContract )
   addEventElements()
   // el.innerText = ''
 }
 
+// adds a list entry to the DOM for each possible event to be filtered for
 function addEventElements() {
   console.log('called addEventElements with ', contracts)
   let contractList = document.createElement("ul")
@@ -44,6 +48,7 @@ function addEventElements() {
   item.replaceChild(contractList, document.getElementById('cList'))
 }
 
+// given a compilattionREsult, returns a list of {contractName, eventABIS}
 function getEvents(data) {
   contracts = []
   for (windw in data.contracts) {
@@ -53,12 +58,13 @@ function getEvents(data) {
       c.tab = windw
       // console.log('found contract titled', contract)
       c.events = data.contracts[windw][contract].abi.filter(e => e.type === "event")
+      c.abi = data.contracts[windw][contract].abi
       events.push(c.events)
       contracts.push(c)
     }
   }
   console.log('all contracts', contracts)
-  // return contracts
+  return contracts
 }
 
 async function printMyStuff () {
@@ -97,9 +103,38 @@ async function printMyStuff () {
   console.log('web3 ', web3)
   let bn = await web3.eth.getBlockNumber()
   console.log('bn ', bn )
+  // let cAddress = document.getElementById('cAddress').elements
+  // let cAddress = document.querySelector("cAddress").value
+  let scratch = document.getElementById('scratch')
+  console.log('scratch ', scratch )
+  let input = document.getElementById('cAddress')
+  console.log('input ', input.value)
+
+  // create a contract object
+  console.log('abi', contracts[0].abi)
+  let instance = getContractInstance(contracts[0].abi, input.value)
+  console.log('instance ', instance )
+  let pastevents = await instance.getPastEvents(contracts[0].events[0].name, {
+    fromBlock: 0,
+    toBlock: 'latest'
+  })
+  console.log('pastevents ', pastevents )
+  displayEvents(pastevents)
 }
 
-async function getEvents(abi) {
+function displayEvents(_events) {
+  let e = _events[0]
+  let eString = e.event + 'fired'
+  let output = document.getElementById("eventList")
+  let newEvent = document.createElement("LI")
+  var textNode = document.createTextNode(eString)
+  newEvent.appendChild(textNode)
+  output.appendChild(newEvent)
+  // output.innerHTML = outputInnerHTML
+  
+}
+
+async function getEvents2(abi) {
   firedEvents = []
   return firedEvents
 }
